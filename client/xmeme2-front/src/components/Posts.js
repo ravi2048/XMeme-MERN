@@ -28,23 +28,25 @@ class Posts extends Component {
         })
     }
 
+    
     render() {
         const postItems = this.state.all_posts.map( post => {
             return (
-                <div key = { post._id } className = 'card' style = {{ borderRadius: '10px', padding: '15px', backgroundColor: 'turquoise' , display: 'inline-block' , marginTop: '20px', marginLeft: '10px'}}>
+                <div key = { post._id } className = 'card' style = {{ borderRadius: '0.9vw', padding: '0.5vw', backgroundColor: '#4DA8DA' , display: 'inline-block' , marginTop: '2vw', marginLeft: '1vw', border:'outset'}}>
                     <div className = "card-header" style = {{ fontSize:'2vw'}}> { post.caption } </div>
                     <div className = "card-body">
-                        <img alt = 'meme' src = { post.url} style = {{ width:'15vw', height:'20vw'}}/>
+                        <img alt = 'meme' src = { post.url } style = {{ width:'19vw', height:'20vw'}}/>
                     </div> 
-                    <div className = "card-footer" style = {{ fontSize: '1vw' }}>Created By: { post.name} </div>
-                    <button className = "btn btn-danger" onClick = { () => this.handleDelete(post._id) } style = {{ marginTop: '5px'}}>Remove</button>
-                    
+                    <div className = "card-footer" style = {{ fontSize: '1vw' }}>
+                        Created By: { post.name} <br/>
+                        <button className = "btn btn-danger" onClick = { () => this.handleDelete(post._id) } style = {{ marginTop: '1vw'}}>Remove</button>
+                    </div>
                 </div>
             )
         });
         return(
             <div>
-                <h1>Memes</h1>
+                <h1 >Memes</h1>
                 { postItems }
             </div>
         )

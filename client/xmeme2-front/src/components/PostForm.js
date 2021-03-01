@@ -42,6 +42,7 @@ class PostForm extends Component {
     render() {
         return(
             <div className = 'row text-center'>
+                <h1>Add a Meme</h1>
                 <form onSubmit = {this.onSubmit} style = {{textAlign: 'center', display: 'inline-block', width:'50vw'}}>
                     <input required className = 'form-control' type='text' name='name' onChange = {this.onChange} value = {this.state.name} placeholder = "Enter your full name" style = {{ marginTop:'10px', borderRadius: '10px'}}/>
                     <br/>
