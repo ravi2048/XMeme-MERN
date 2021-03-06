@@ -1,60 +1,48 @@
-import React, {Component} from 'react';
+// import React, {Component} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-// import FileBase from 'react-file-base64';
 
 const backend_url = 'https://xmeme2.herokuapp.com/memes';
-class PostForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            name:'',
-            caption:'',
-            url:''
-        }
-        /* binding to this object(if not using arrow function) */
-        // this.onChange = this.onChange.bind(this);
-    }
 
-    onChange = (e) => {
-        this.setState({ [e.target.name] : e.target.value })
-    }
+/* functional component */
+function PostForm() {
+    const [post, setPost] = useState({ name:'', caption:'', url:'' });
 
-    onSubmit = (e) => {
+    const handleChange = (e) => {
+        setPost( { ...post, [e.target.name]: e.target.value } );
+    }
+    const handleSubmit = (e) => {
         e.preventDefault();
-        if(this.state.name !== '' && this.state.url !== '' && this.state.caption !== '' ) {
-            axios.post( backend_url, this.state )
+        axios.post( backend_url, post )
             .then( res => {
                 console.log('posted successfully');
-                /*resetting the form */
-                this.setState({name: '', caption:'', url:''});
             })
             .catch(err => {
                 console.log(err);
             });
 
-            /* refreshing page */
-            setTimeout(function(){ 
-                window.location.reload();
-            },2500);
-        } 
+        /* refreshing page */
+        setTimeout(function(){ 
+            window.location.reload();
+        },3000);
+         
     }
 
-    render() {
-        return(
-            <div className = 'row text-center'>
-                <h1>Add a Meme</h1>
-                <form onSubmit = {this.onSubmit} style = {{textAlign: 'center', display: 'inline-block', width:'50vw'}}>
-                    <input required className = 'form-control' type='text' name='name' onChange = {this.onChange} value = {this.state.name} placeholder = "Enter your full name" style = {{ marginTop:'10px', borderRadius: '10px'}}/>
-                    <br/>
-                    <input required className = 'form-control' type='text' name='caption' onChange = {this.onChange} value = {this.state.caption} placeholder = "Be creative with the caption" style = {{ marginTop:'10px', borderRadius: '10px'}}/>
-                    <br/>
-                    <input required className = 'form-control' type='text' name='url' onChange = { this.onChange } value = {this.state.url} placeholder = "Enter URL of the meme here" style = {{ marginTop:'10px', borderRadius: '10px'}}/>
 
-                    <button className = 'btn btn-primary' type='submit' onClick="document.location.reload(true)" style = {{ marginTop:'10px', marginBottom:'20px', borderRadius: '10px'}}>Submit Meme</button>
-                </form>
-            </div>
-        )
-    }
+    return(
+        <div className = 'row text-center'>
+            <h1>Add a Meme</h1>
+            <form onSubmit = { handleSubmit } style = {{textAlign: 'center', display: 'inline-block', width:'50vw'}}>
+                <input required className = 'form-control' type = 'text' name = 'name' value = { post.name } onChange = { handleChange } placeholder = "Enter your full name" style = {{ marginTop:'1vw', borderRadius: '10px'}}/>
+                <br/>
+                <input required className = 'form-control' type = 'text' name = 'caption' value = { post.caption }  onChange = { handleChange } placeholder = "Be creative with the caption" style = {{ marginTop:'1vw', borderRadius: '10px'}}/>
+                <br/>
+                <input required className = 'form-control' type = 'text' name = 'url' value = { post.url }  onChange = { handleChange } placeholder = "Enter URL of the meme here" style = {{ marginTop:'1vw', borderRadius: '10px'}}/>
+
+                <button className = 'btn btn-primary' type = 'submit' style = {{ marginTop:'2vw', marginBottom:'1vw', borderRadius: '10px'}}>Submit Meme</button>
+            </form>
+        </div>
+    )
 }
 
 export default PostForm;
