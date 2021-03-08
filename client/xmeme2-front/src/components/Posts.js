@@ -1,6 +1,7 @@
 import React , { useState, useEffect } from 'react';
 import axios from 'axios';
 import Pagination from './Pagination.js';
+import Loader from './Loader.js'
 
 const backend_url = 'https://xmeme2.herokuapp.com/memes';
 
@@ -9,12 +10,15 @@ function Posts() {
     const [posts, setPosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [postsPerPage] = useState(5);
+    const [stillLoading, setStillLoading] = useState(true);
 
     useEffect( () => {
         const fetchPosts = async () => {
             const res = await axios.get(backend_url);
             console.log(res.data);
             setPosts(res.data);
+            /* until the data is fetched, keep stillLoading to true(keep on..) */
+            setStillLoading(false);
         }
 
         fetchPosts();
@@ -63,7 +67,7 @@ function Posts() {
     return (
         <div>
             <h1>Memes</h1>
-            { postItems }
+            { stillLoading ? <Loader/> :postItems }
             <Pagination postsPerPage = { postsPerPage } totalPosts = { posts.length } paginate = { paginate } />
         </div>
     );
